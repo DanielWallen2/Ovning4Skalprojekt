@@ -104,54 +104,13 @@ namespace SkalProj_Datastrukturer_Minne
             List<string> theList = new List<string>();
             //int capacity = theList.Capacity;
             // Capacity är 0 från början
-            
 
             bool loop = true;
             do
             {
-                ConsoleKeyInfo keyObj = Console.ReadKey(false);
-                char nav = keyObj.KeyChar;
-
-                switch (nav)
-                {
-                    case '+':
-                        {
-                            string input = Console.ReadLine()!;
-                            theList.Add(input);
-                            //capacity = theList.Capacity;
-                            // Capacity ökar från 0 till 4 när första objektet läggs till
-                            // Ökar sedan från 4 till 8 när femte objectet läggs till osv
-
-                            break;
-                        }
-                    case '-':
-                        {
-                            string input = Console.ReadLine()!;
-                            bool success = theList.Remove(input);
-                            //capacity = theList.Capacity;
-                            // Capacity minskar inte alls när objekt tas bort.
-                            // Man bör använda en egen array om man från början vet hur stor den behöver vara
-                            
-                            if (!success) Console.WriteLine($"{input} was not found in the list");
-
-                            break;
-                        }
-                    case '0':
-                        {
-                            Console.WriteLine();
-                            loop = false;
-                            break;
-                        }
-                    default:
-                        {
-                            Console.WriteLine("Only use + or - to add or remove, or 0 to go back");
-                            break;
-                        }
-                }
-
+                loop = TestList(theList, loop);
 
             } while (loop);
-
 
         }
 
@@ -173,37 +132,7 @@ namespace SkalProj_Datastrukturer_Minne
             bool loop = true;
             do
             {
-                ConsoleKeyInfo keyObj = Console.ReadKey(true);
-                char nav = keyObj.KeyChar;
-
-                switch (nav)
-                {
-                    case '+':
-                        {
-                            Console.Write("+");
-                            string input = Console.ReadLine()!;
-                            theQueue.Enqueue(input);
-                            break;
-                        }
-                    case 'e':
-                        {
-                            if (theQueue.Count > 0) Console.WriteLine($"{theQueue.Dequeue()} was expedited");
-                            else Console.WriteLine("The cue is empty");
-                            break;
-                        }
-                    case '0':
-                        {
-                            Console.WriteLine();
-                            loop = false;
-                            break;
-                        }
-                    default:
-                        {
-                            Console.WriteLine("Only use + to add to the que, e for expedition or 0 to go back");
-                            break;
-                        }
-                
-                }
+                loop = TestQueue(theQueue, loop);
 
             } while (loop);
 
@@ -219,9 +148,30 @@ namespace SkalProj_Datastrukturer_Minne
              * Create a switch with cases to push or pop items
              * Make sure to look at the stack after pushing and and poping to see how it behaves
             */
+
+            Console.WriteLine("Add a name to the list by typing a + followed by the name or e to expedite");
+
+            Stack<string> theStack = new Stack<string>();
+
+            bool loop = true;
+            do
+            {
+                loop = TestStack(theStack, loop);
+                // Inte så smart att anv stack. Kalle, som kom först får vänta till sist, lär bli ganska sur...
+                
+            } while (loop);
+
+
+            Console.WriteLine("Input a string");
+
+            string myString = Console.ReadLine();
+            string myReversString = ReverseText(myString);
+ 
+            Console.WriteLine(myReversString);
+            Console.ReadKey(true);                  // Pause here
         }
 
-        static void CheckParanthesis()
+         static void CheckParanthesis()
         {
             /*
              * Use this method to check if the paranthesis in a string is Correct or incorrect.
@@ -229,6 +179,197 @@ namespace SkalProj_Datastrukturer_Minne
              * Example of incorrect: (()]), [), {[()}],  List<int> list = new List<int>() { 1, 2, 3, 4 );
              */
 
+            string testString1 = "{([{}]({}))}";
+            string testString2 = "List<int> list = new List<int>() { 1, 2, 3, 4 };";
+
+
+
+            
+           testString1 = CheckSubString(testString1);
+            testString1 = CheckSubString(testString1);
+            testString1 = CheckSubString(testString1);
+            testString1 = CheckSubString(testString1);
+            
+        }
+
+        static string CheckSubString(string teststring)
+
+        {
+            //Hej
+
+            // Loopa igenom strängen tills vi träffar det första VÄRDET. Matcha mot den sista Nyckeln
+
+            char[] testArray = teststring.ToCharArray();
+            Dictionary<char, char> paranthesis = new Dictionary<char, char>() { { '<', '>' }, { '(', ')' }, { '{', '}' }, { '[', ']' } };
+            char currentKey = ' ';
+
+            for (int i = 0; i < testArray.Length; i++)
+            {
+                if (paranthesis.ContainsValue(testArray[i]))
+                {
+                    int sPos = teststring.IndexOf(currentKey);
+                    string sString = teststring.Substring(0, sPos);
+                    string eString = teststring.Substring(i + 1);
+
+                    return sString + eString;           // Ta bort den innersta parentesen
+
+                }
+
+
+                foreach (char key in paranthesis.Keys)
+                {
+                    if(key == testArray[i])
+                    {
+                        currentKey = key;
+                        break;
+                    }
+                 }
+                
+            }
+
+            return teststring;
+         
+        }
+
+
+        static bool TestList(List<string> theList, bool loop)
+        {
+            ConsoleKeyInfo keyObj = Console.ReadKey(true);
+            char nav = keyObj.KeyChar;
+
+            switch (nav)
+            {
+                case '+':
+                    {
+                        Console.WriteLine('+');
+                        string input = Console.ReadLine()!;
+                        theList.Add(input);
+                        //capacity = theList.Capacity;
+                        // Capacity ökar från 0 till 4 när första objektet läggs till
+                        // Ökar sedan från 4 till 8 när femte objectet läggs till osv
+
+                        break;
+                    }
+                case '-':
+                    {
+                        Console.WriteLine('-');
+                        string input = Console.ReadLine()!;
+                        if(theList.Count > 0)
+                        {
+                            bool success = theList.Remove(input);
+                            if (!success) Console.WriteLine($"{input} was not found in the list");
+                        }
+                        else Console.WriteLine("The cue is empty");
+                        //capacity = theList.Capacity;
+                        // Capacity minskar inte alls när objekt tas bort.
+                        // Man bör använda en egen array om man från början vet hur stor den behöver vara
+
+                        break;
+                    }
+                case '0':
+                    {
+                        Console.WriteLine();
+                        loop = false;
+                        break;
+                    }
+                default:
+                    {
+                        Console.WriteLine("Only use + or - to add or remove, or 0 to go back");
+                        break;
+                    }
+            }
+
+            return loop;
+        }
+        
+        static bool TestQueue(Queue<string> theQueue, bool loop)
+        {
+            ConsoleKeyInfo keyObj = Console.ReadKey(true);
+            char nav = keyObj.KeyChar;
+
+            switch (nav)
+            {
+                case '+':
+                    {
+                        Console.Write("+");
+                        theQueue.Enqueue(Console.ReadLine()!);
+                        break;
+                    }
+                case 'e':
+                    {
+                        if (theQueue.Count > 0) Console.WriteLine($"{theQueue.Dequeue()} was expedited");
+                        else Console.WriteLine("The cue is empty");
+                        break;
+                    }
+                case '0':
+                    {
+                        Console.WriteLine();
+                        loop = false;
+                        break;
+                    }
+                default:
+                    {
+                        Console.WriteLine("Only use + to add to the que, e for expedition or 0 to go back");
+                        break;
+                    }
+            }
+
+            return loop;
+        }
+
+        static bool TestStack(Stack<string> theStack, bool loop)
+        {
+            ConsoleKeyInfo keyObj = Console.ReadKey(true);
+            char nav = keyObj.KeyChar;
+
+            switch (nav)
+            {
+                case '+':
+                    {
+                        Console.Write("+");
+                        theStack.Push(Console.ReadLine()!);
+                        break;
+                    }
+                case 'e':
+                    {
+                        if (theStack.Count > 0) Console.WriteLine($"{theStack.Pop()} was expedited");
+                        else Console.WriteLine("The cue is empty");
+                        break;
+                    }
+                case '0':
+                    {
+                        Console.WriteLine();
+                        loop = false;
+                        break;
+                    }
+                default:
+                    {
+                        Console.WriteLine("Only use + to add to the que, e for expedition or 0 to go back");
+                        break;
+                    }
+            }
+
+            return loop;
+        }
+        private static string ReverseText(string myString)
+        {
+            char[] myChars = myString.ToCharArray();
+            string myReversString = "";
+
+            //IEnumerable<char> myChar = myChars.Reverse();
+            //foreach (char c in myChar) myReversString += c;
+
+            Stack<char> myCharStack = new Stack<char>();
+            foreach (char c in myChars)
+            {
+                myCharStack.Push(c);
+            }
+            do
+            {
+                myReversString += myCharStack.Pop();
+            } while (myCharStack.Count() > 0);
+
+            return myReversString;
         }
 
     }
