@@ -179,91 +179,21 @@ namespace SkalProj_Datastrukturer_Minne
              * Example of incorrect: (()]), [), {[()}],  List<int> list = new List<int>() { 1, 2, 3, 4 );
              */
 
-            string testString1 = "{([{}]({}))}";
-            string testString2 = "List<int> list = new List<int>() { 1, 2, 3, 4 };";
-            string testString3 = "{[()}]";
-            string testString4 = "List<int> list = new List<int>() { 1, 2, 3, 4 );";
+            Console.WriteLine("\nInput a string containing paranthesis or enter to go back");
 
-            Console.Write("String 1: \t");
-            Console.WriteLine(testString1);
-            Console.Write("Result: \t");
-            Console.WriteLine(CheckString(testString1));
-            Console.WriteLine();
-
-            Console.Write("String 2: \t");
-            Console.WriteLine(testString2);
-            Console.Write("Result: \t");
-            Console.WriteLine(CheckString(testString2));
-            Console.WriteLine();
-
-            Console.Write("String 3: \t");
-            Console.WriteLine(testString3);
-            Console.Write("Result: \t");
-            Console.WriteLine(CheckString(testString3));
-            Console.WriteLine();
-
-            Console.Write("String 4: \t");
-            Console.WriteLine(testString4);
-            Console.Write("Result: \t");
-            Console.WriteLine(CheckString(testString4));
-            Console.WriteLine();
-
-        }
-
-        private static bool CheckString(string testString1)
-        {
-            Dictionary<char, char> paranthesis = new Dictionary<char, char>() { { '<', '>' }, { '(', ')' }, { '{', '}' }, { '[', ']' } };
-            Stack<char> stack1 = new Stack<char>();
-
-            foreach (char c in testString1)
+            do
             {
-                if (paranthesis.ContainsValue(c))
-                {
-                    char lastkey = stack1.Pop();
-                    if (c != paranthesis[lastkey]) return false;
-                }
-                if(paranthesis.ContainsKey(c)) stack1.Push(c);
-            }
+                string testString = Console.ReadLine();
+                if(testString == "") break;
 
-            return true;
+                Console.Write("Result: \t");
+                if (CheckString(testString)) Console.WriteLine("Correct");
+                else Console.WriteLine("Fail");
+                Console.WriteLine();
+
+            } while (true);
 
         }
-
-        static string CheckSubString(string teststring)
-        {
-            // Loopa igenom strängen tills vi träffar det första VÄRDET. Matcha mot den sista Nyckeln
-
-            char[] testArray = teststring.ToCharArray();
-            Dictionary<char, char> paranthesis = new Dictionary<char, char>() { { '<', '>' }, { '(', ')' }, { '{', '}' }, { '[', ']' } };
-            char currentKey = ' ';
-
-            for (int i = 0; i < testArray.Length; i++)
-            {
-                if (paranthesis.ContainsValue(testArray[i]))
-                {
-                    int sPos = teststring.IndexOf(currentKey);      // FEL: IndexOf returnerar endast första förekomsten av en char
-                    string sString = teststring.Substring(0, sPos);
-                    string eString = teststring.Substring(i + 1);
-
-                    return sString + eString;                       // Ta bort den innersta parentesen
-
-                }
-
-                foreach (char key in paranthesis.Keys)
-                {
-                    if(key == testArray[i])
-                    {
-                        currentKey = key;
-                        break;
-                    }
-                 }
-                
-            }
-
-            return teststring;
-         
-        }
-
 
         static bool TestList(List<string> theList, bool loop)
         {
@@ -405,6 +335,26 @@ namespace SkalProj_Datastrukturer_Minne
             return myReversString;
         }
 
+        private static bool CheckString(string testString1)
+        {
+            Dictionary<char, char> paranthesis = new Dictionary<char, char>() { { '<', '>' }, { '(', ')' }, { '{', '}' }, { '[', ']' } };
+            Stack<char> stack1 = new Stack<char>();
+
+            foreach (char c in testString1)
+            {
+                if (paranthesis.ContainsValue(c))
+                {
+                    char lastkey = stack1.Pop();
+                    if (c != paranthesis[lastkey]) return false;
+                }
+                if (paranthesis.ContainsKey(c)) stack1.Push(c);
+            }
+
+            return true;
+
+        }
+
     }
+
 }
 
