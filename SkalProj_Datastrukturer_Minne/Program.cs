@@ -196,6 +196,7 @@ namespace SkalProj_Datastrukturer_Minne
 
         {
             //Hej
+            //Hej
 
             // Loopa igenom strängen tills vi träffar det första VÄRDET. Matcha mot den sista Nyckeln
 
