@@ -209,7 +209,7 @@ namespace SkalProj_Datastrukturer_Minne
                         theList.Add(input);
                         //capacity = theList.Capacity;
                         // Capacity ökar från 0 till 4 när första objektet läggs till
-                        // Ökar sedan från 4 till 8 när femte objectet läggs till osv
+                        // Ökar sedan från 4 till 8 när femte objectet läggs till osv...
 
                         break;
                     }
@@ -244,7 +244,7 @@ namespace SkalProj_Datastrukturer_Minne
 
             return loop;
         }
-        
+
         static bool TestQueue(Queue<string> theQueue, bool loop)
         {
             ConsoleKeyInfo keyObj = Console.ReadKey(true);
@@ -319,7 +319,7 @@ namespace SkalProj_Datastrukturer_Minne
             char[] myChars = myString.ToCharArray();
             string myReversString = "";
 
-            //IEnumerable<char> myChar = myChars.Reverse();
+            //IEnumerable<char> myChar = myChars.Reverse();         // Skulle föredragit den här metoden
             //foreach (char c in myChar) myReversString += c;
 
             Stack<char> myCharStack = new Stack<char>();
@@ -335,12 +335,12 @@ namespace SkalProj_Datastrukturer_Minne
             return myReversString;
         }
 
-        private static bool CheckString(string testString1)
+        private static bool CheckString(string testString)
         {
             Dictionary<char, char> paranthesis = new Dictionary<char, char>() { { '<', '>' }, { '(', ')' }, { '{', '}' }, { '[', ']' } };
             Stack<char> stack1 = new Stack<char>();
 
-            foreach (char c in testString1)
+            foreach (char c in testString)
             {
                 if (paranthesis.ContainsValue(c))
                 {
