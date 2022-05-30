@@ -38,6 +38,7 @@ namespace SkalProj_Datastrukturer_Minne
                     + "\n2. Examine a Queue"
                     + "\n3. Examine a Stack"
                     + "\n4. CheckParanthesis"
+                    + "\n5. Recursion"
                     + "\n0. Exit the application");
                 char input = ' '; //Creates the character input to be used with the switch-case below.
                 try
@@ -67,6 +68,9 @@ namespace SkalProj_Datastrukturer_Minne
                      * Extend the menu to include the recursive 
                      * and iterative exercises.
                      */
+                    case '5':
+                        ExamineRecursive();
+                        break;
                     case '0':
                         Environment.Exit(0);
                         break;
@@ -76,6 +80,7 @@ namespace SkalProj_Datastrukturer_Minne
                 }
             }
         }
+
 
         /// <summary>
         /// Examines the datastructure List
@@ -352,6 +357,46 @@ namespace SkalProj_Datastrukturer_Minne
 
             return true;
 
+        }
+
+        private static void ExamineRecursive()
+        {
+            Console.WriteLine("\nMata in ett udda tal");
+            string inputOdd = Console.ReadLine()!;
+            if(int.TryParse(inputOdd.Trim(), out int n))
+            {
+                // ToDo: Testa om input är udda
+                int result = RecursiveOdd2(n);
+                Console.WriteLine($"Det {n}:e udda talet är {result}");
+            }
+
+            Console.WriteLine("\nMata in ett jämnt tal");
+            string inputEven = Console.ReadLine()!;
+            if (uint.TryParse(inputEven.Trim(), out uint m))
+            {
+                // ToDo: Testa om input är jämnt + får ej vara 0
+                uint result = RecursiveEven(m);
+                Console.WriteLine($"Det {m}:e jämna talet är {result}\n");
+            }
+
+        }
+
+        //static int RecursiveOdd(int n)
+        //{
+        //    if (n == 0) return 1;
+        //    return (RecursiveOdd(n - 1) + 2);     // Menar att 1:a udda talet är 3 !!!
+        //}
+
+        static int RecursiveOdd2(int n)
+        {
+            if(n == 0) return - 1;
+            return (RecursiveOdd2(n - 1) + 2);
+        }
+
+        private static uint RecursiveEven(uint m)
+        {
+            if(m == 0) return 0;
+            return (RecursiveEven(m - 1) + 2);
         }
 
     }
